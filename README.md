@@ -1,2 +1,7 @@
-# setup-cloudflare
-Automated script to deploy Cloudflare CDN's reverse proxy ranges on your firewall, blocking non-Cloudflare requests
+## Run:
+```bash
+git clone https://github.com/0x204/setup-cloudflare
+cd setup-cloudflare
+# CHANGE THE LINE FOR EXTRA IP
+bash cloudflare.sh 
+```
