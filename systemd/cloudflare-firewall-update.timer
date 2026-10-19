@@ -1,0 +1,9 @@
+[Unit]
+Description=Daily update of Cloudflare's IP ranges
+Documentation=https://github.com/0x204/setup-cloudflare
+PartOf=cloudflare-firewall.service
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=1h
+Persistent=true
