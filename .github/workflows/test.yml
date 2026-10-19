@@ -1,0 +1,27 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: shellcheck cloudflare.sh tests/run.sh
+      - name: Verify systemd units
+        run: |
+          sudo install -m 0755 cloudflare.sh /usr/local/sbin/cloudflare-firewall
+          systemd-analyze verify systemd/*
+
+  integration:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        backend: [nft, legacy]
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo env BACKEND=${{ matrix.backend }} tests/run.sh
