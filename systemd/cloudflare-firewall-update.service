@@ -1,0 +1,13 @@
+[Unit]
+Description=Download Cloudflare's IP ranges and reapply the web port rules
+Documentation=https://github.com/0x204/setup-cloudflare
+Wants=network-online.target
+After=network-online.target cloudflare-firewall.service
+Requisite=cloudflare-firewall.service
+
+[Service]
+Type=oneshot
+StateDirectory=cloudflare-firewall
+ProtectSystem=full
+ProtectHome=yes
+ExecStart=/usr/local/sbin/cloudflare-firewall update

@@ -1,0 +1,22 @@
+[Unit]
+Description=Allow only Cloudflare to reach the web ports
+Documentation=https://github.com/0x204/setup-cloudflare
+DefaultDependencies=no
+Wants=network-pre.target cloudflare-firewall-update.timer
+Before=network-pre.target shutdown.target
+# Start after the firewall services that replace the whole ruleset.
+After=local-fs.target ufw.service firewalld.service nftables.service netfilter-persistent.service iptables.service ip6tables.service
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StateDirectory=cloudflare-firewall
+ProtectSystem=full
+ProtectHome=yes
+ExecStart=/usr/local/sbin/cloudflare-firewall apply
+ExecReload=/usr/local/sbin/cloudflare-firewall apply
+ExecStop=/usr/local/sbin/cloudflare-firewall remove
+
+[Install]
+WantedBy=multi-user.target
