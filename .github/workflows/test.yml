@@ -9,7 +9,7 @@ jobs:
   lint:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: shellcheck cloudflare.sh tests/run.sh
       - name: Verify systemd units
         run: |
@@ -23,5 +23,5 @@ jobs:
       matrix:
         backend: [nft, legacy]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: sudo env BACKEND=${{ matrix.backend }} tests/run.sh
