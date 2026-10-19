@@ -165,8 +165,10 @@ test_existing_accept_rule_does_not_bypass() {
 }
 
 test_cloudflare_passes_a_closed_input_chain() {
-    # A default-deny firewall without a rule for the web ports.
+    # A default-deny firewall without a rule for the web ports. Like any real
+    # one it lets ICMPv6 through, otherwise IPv6 neighbour discovery fails.
     srv iptables -P INPUT DROP
+    v6 srv ip6tables -A INPUT -p icmpv6 -j ACCEPT
     v6 srv ip6tables -P INPUT DROP
     firewall apply
     reachable cli tcp "$CF4" "$SERVER4" 443
